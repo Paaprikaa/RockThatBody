@@ -4,9 +4,8 @@ using TMPro;
 
 public class GameLogic : MonoBehaviour
 {
+    [Header("Obstacles")]
     [SerializeField] private GameObject obstacles;
-
-    [Header("Movement")]
     [SerializeField] private float speed = 20f;
     private Vector3 newPos;
 
