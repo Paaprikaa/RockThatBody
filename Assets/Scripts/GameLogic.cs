@@ -1,6 +1,7 @@
 using System.Collections;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLogic : MonoBehaviour
 {
@@ -15,6 +16,11 @@ public class GameLogic : MonoBehaviour
     public TMP_Text startCountText;
     public GameObject goButton;
 
+    [Header("Win/Loose Menu")]
+    [SerializeField] private GameObject winMenu;
+    [SerializeField] private GameObject looseMenu;
+
+
     private void Awake()
     {
         Time.timeScale = 0f;
@@ -24,7 +30,22 @@ public class GameLogic : MonoBehaviour
         newPos = obstacles.transform.position;
         newPos.z = newPos.z - 1 * speed * Time.deltaTime;
         obstacles.transform.position = newPos;
+        if (obstacles.transform.position.z <= -160f)
+        {
+            WinGame();
+        }
     }
+
+    // Buttons
+    public void Exit()
+    {
+        Application.Quit();
+    }
+    public void Restart()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
 
     public void StartGame()
     {
@@ -32,6 +53,19 @@ public class GameLogic : MonoBehaviour
         goButton.SetActive(false);
         startCountText.gameObject.SetActive(true);
         StartCoroutine(StartCount());
+    }
+
+    // Menus
+    private void WinGame()
+    {
+        winMenu.SetActive(true);
+    }
+
+    public void LooseGame()
+    {
+        looseMenu.SetActive(true);
+        rockThatBody.Stop();
+        Time.timeScale = 0f;
     }
 
     private IEnumerator StartCount()

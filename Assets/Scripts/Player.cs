@@ -1,21 +1,25 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Player: MonoBehaviour
+public class Player : MonoBehaviour
 {
     public float speed = 500f;
     private float moveInput = 0f;
     public Rigidbody rb;
+    public GameLogic gameLogic;
 
     void Update()
     {
         // Only horizontal movement
         moveInput = Input.GetAxisRaw("Horizontal");
-        rb.linearVelocity = new Vector3(moveInput * speed * Time.fixedDeltaTime, 0f,0f);
+        rb.linearVelocity = new Vector3(moveInput * speed * Time.fixedDeltaTime, 0f, 0f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("perdiste");
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            gameLogic.LooseGame();
+        }
     }
 }
